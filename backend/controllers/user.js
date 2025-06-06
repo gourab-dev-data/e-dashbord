@@ -1,4 +1,6 @@
 const userSchema = require("../models/users");
+const Jwt = require('jsonwebtoken');
+const privateKey = process.env.privateKey;
 
 //@Dec      Get all user
 //@Routes   Get /api/v1/getusers
@@ -13,6 +15,9 @@ exports.createUser = async (req, res, next) => {
     const userDeatils = await userSchema.create(req.body);
     let userInfo = userDeatils.toObject();
     delete userInfo.password;
+    Jwt.sign(userInfo, privateKey, function (err, token) {
+        console.log(token, err);
+    });
     res.status(200).json({ success: true, data: userInfo });
 }
 

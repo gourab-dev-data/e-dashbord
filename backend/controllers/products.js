@@ -1,12 +1,25 @@
 const productSchema = require("../models/products");
 
-//@Dec      Get Products
+//@Dec      Get All Products
 //@Routes   Get /api/v1/products
 //@Acess    Public
 exports.getProducts = async (req, res, next) => {
     console.log(req.body);
     const userDeatils = await productSchema.find();
     if (userDeatils.length > 0) {
+        res.status(200).json({ success: true, data: userDeatils });
+    } else {
+        res.status(200).json({ success: false, data: 'No data found.' });
+    }
+}
+
+//@Dec      Get Single Product
+//@Routes   Get /api/v1/products/:id
+//@Acess    Public
+exports.getProduct = async (req, res, next) => {
+    console.log(req.params.id);
+    const userDeatils = await productSchema.findById(req.params.id);
+    if (userDeatils) {
         res.status(200).json({ success: true, data: userDeatils });
     } else {
         res.status(200).json({ success: false, data: 'No data found.' });
@@ -58,5 +71,25 @@ exports.updateProduct = async (req, res, next) => {
         }
     } catch (error) {
         next(error); // Pass to error-handling middleware
+    }
+}
+
+//@Dec      Get Search Products
+//@Routes   Get /api/v1/products/search/:key
+//@Acess    Public
+exports.searchProducts = async (req, res, next) => {
+    console.log(req.params.key);
+    const userDeatils = await productSchema.find({
+        "$or": [
+            { 'title': { $regex: req.params.key } },
+            { 'category': { $regex: req.params.key } },
+            { 'company': { $regex: req.params.key } },
+            { 'price': { $regex: req.params.key } }
+        ]
+    });
+    if (userDeatils.length > 0) {
+        res.status(200).json({ success: true, data: userDeatils });
+    } else {
+        res.status(200).json({ success: false, data: 'No data found.' });
     }
 }
