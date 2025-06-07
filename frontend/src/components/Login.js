@@ -22,8 +22,9 @@ const Login = () => {
         })
         result = await result.json();
         console.log(result);
-        if (result.success) {
+        if (result.status) {
             localStorage.setItem('user', JSON.stringify(result.data));
+            localStorage.setItem('token', JSON.stringify(result.token));
             navigate('/');
         } else {
             alert(result.data)

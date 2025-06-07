@@ -17,8 +17,12 @@ exports.createUser = async (req, res, next) => {
     delete userInfo.password;
     Jwt.sign(userInfo, privateKey, function (err, token) {
         console.log(token, err);
+        if(err){
+           res.status(200).json({ status: false, data: 'Data somthing wrong, Please try some time.' }); 
+        }else{
+            res.status(200).json({ status: true, data: userInfo, token });
+        }
     });
-    res.status(200).json({ success: true, data: userInfo });
 }
 
 //@Dec      Add user
@@ -29,7 +33,14 @@ exports.loginUser = async (req, res, next) => {
     if (req.body.email && req.body.password) {
         const userDeatils = await userSchema.findOne(req.body).select('-password');
         if (userDeatils) {
-            res.status(200).json({ success: true, data: userDeatils });
+            Jwt.sign(userDeatils, privateKey, function (err, token) {
+                console.log(token, err);
+                if(err){
+                res.status(200).json({ status: false, data: 'Data somthing wrong, Please try some time.' }); 
+                }else{
+                    res.status(200).json({ status: true, data: userDeatils, token });
+                }
+            });
         } else {
             res.status(200).json({ success: false, data: 'No data found.' });
         }

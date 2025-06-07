@@ -3,6 +3,10 @@ import { Link, useNavigate } from "react-router-dom";
 
 const Nav = () => {
     const auth = localStorage.getItem('user');
+    let authName = '';
+    if(auth){
+        authName = JSON.parse(auth).name;
+    }    
     const navigate = useNavigate();
     const logout = () => {
         console.log('logout');
@@ -37,7 +41,7 @@ const Nav = () => {
             <div className="right-menu">
                 <ul className="nav-ul right-nav">
                     {
-                        auth ? <li><Link onClick={logout} to="/signup">Logout</Link></li>
+                        auth ? <li><Link onClick={logout} to="/signup">Logout ({authName})</Link></li>
                             :
                             <>
                                 <li><Link to="/signup">Sign up</Link></li>

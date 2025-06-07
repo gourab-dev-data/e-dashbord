@@ -9,6 +9,7 @@ const AddProduct = () => {
     const [error, setError] = useState(false);
 
     const collectProductData = async () => {
+        const token = JSON.parse(localStorage.getItem("token"));
         if (!title || !description || !price || !category || !company) {
             setError(true);
             return false;
@@ -26,7 +27,8 @@ const AddProduct = () => {
             method: "POST",
             body: raw,
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": `bearer ${token}`
             }
         });
         result = await result.json();
