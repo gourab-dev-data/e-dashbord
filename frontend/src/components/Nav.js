@@ -9,7 +9,7 @@ const Nav = () => {
     }    
     const navigate = useNavigate();
     const logout = () => {
-        console.log('logout');
+        //console.log('logout');
         localStorage.clear();
         navigate('/signup');
     }

@@ -35,12 +35,12 @@ const ProductList = () => {
         });
         result = await result.json();
         getProductData();
-        console.log(result);
+        //console.log(result);
     }
 
     const searchHandeler = async (event) => {
         const key = event.target.value;
-        console.log(key);
+        //console.log(key);
         if (key) {
             let result = await fetch(`http://localhost:5000/api/v1/products/search/${key}`, {
                 method: "GET",
@@ -53,7 +53,7 @@ const ProductList = () => {
             if (result.status) {
                 setProducts(result.data);
             }
-            console.log(result);
+            //console.log(result);
         } else {
             getProductData();
         }

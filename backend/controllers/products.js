@@ -17,7 +17,7 @@ exports.getProducts = async (req, res, next) => {
 //@Routes   Get /api/v1/products/:id
 //@Acess    Public
 exports.getProduct = async (req, res, next) => {
-    console.log(req.params.id);
+    //console.log(req.params.id);
     const userDeatils = await productSchema.findById(req.params.id);
     if (userDeatils) {
         res.status(200).json({ status: true, data: userDeatils });
@@ -31,7 +31,7 @@ exports.getProduct = async (req, res, next) => {
 //@Routes   Post /api/v1/products
 //@Acess    Public
 exports.addProduct = async (req, res, next) => {
-    console.log(req.body);
+    //console.log(req.body);
     const userDeatils = await productSchema.create(req.body);
     res.status(200).json({ status: true, data: userDeatils });
 }
@@ -78,7 +78,7 @@ exports.updateProduct = async (req, res, next) => {
 //@Routes   Get /api/v1/products/search/:key
 //@Acess    Public
 exports.searchProducts = async (req, res, next) => {
-    console.log(req.params.key);
+    //console.log(req.params.key);
     const userDeatils = await productSchema.find({
         "$or": [
             { 'title': { $regex: req.params.key } },
@@ -88,8 +88,8 @@ exports.searchProducts = async (req, res, next) => {
         ]
     });
     if (userDeatils.length > 0) {
-        res.status(200).json({ success: true, data: userDeatils });
+        res.status(200).json({ status: true, data: userDeatils });
     } else {
-        res.status(200).json({ success: false, data: 'No data found.' });
+        res.status(200).json({ status: false, data: 'No data found.' });
     }
 }

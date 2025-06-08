@@ -11,18 +11,20 @@ const UpdateProduct = () => {
     const [error, setError] = useState(false);
     const params = useParams();
     const id = params.id;
+    const token = JSON.parse(localStorage.getItem("token"));
 
     // Memoizing getProduct to avoid unnecessary re-renders
     const getProduct = useCallback(async () => {
         let result = await fetch(`http://localhost:5000/api/v1/products/${id}`, {
             method: "GET",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": `bearer ${token}`
             }
         });
         result = await result.json();
         let data = result.data;
-        console.log(data);
+        //console.log(data);
         setTitle(data.title);
         setDescription(data.description);
         setCategory(data.category);
@@ -52,11 +54,12 @@ const UpdateProduct = () => {
             method: "PUT",
             body: raw,
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": `bearer ${token}`
             }
         });
         result = await result.json();
-        console.log(result);
+        //console.log(result);
         navigate('/');
     }
 

@@ -16,7 +16,7 @@ exports.createUser = async (req, res, next) => {
     let userInfo = userDeatils.toObject();
     delete userInfo.password;
     Jwt.sign(userInfo, privateKey, function (err, token) {
-        console.log(token, err);
+        //console.log(token, err);
         if(err){
            res.status(200).json({ status: false, data: 'Data somthing wrong, Please try some time.' }); 
         }else{
@@ -34,7 +34,7 @@ exports.loginUser = async (req, res, next) => {
         const userDeatils = await userSchema.findOne(req.body).select('-password');
         if (userDeatils) {
             Jwt.sign(userDeatils, privateKey, function (err, token) {
-                console.log(token, err);
+                //console.log(token, err);
                 if(err){
                 res.status(200).json({ status: false, data: 'Data somthing wrong, Please try some time.' }); 
                 }else{
