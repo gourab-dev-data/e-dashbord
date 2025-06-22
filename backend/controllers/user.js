@@ -33,10 +33,11 @@ exports.loginUser = async (req, res, next) => {
     if (req.body.email && req.body.password) {
         const userDeatils = await userSchema.findOne(req.body).select('-password');
         if (userDeatils) {
-            Jwt.sign(userDeatils, privateKey, function (err, token) {
+            let userInfo = userDeatils.toObject();
+            Jwt.sign(userInfo, privateKey, function (err, token) {
                 //console.log(token, err);
                 if(err){
-                res.status(200).json({ status: false, data: 'Data somthing wrong, Please try some time.' }); 
+                    res.status(200).json({ status: false, data: 'Data somthing wrong, Please try some time.' }); 
                 }else{
                     res.status(200).json({ status: true, data: userDeatils, token });
                 }
